@@ -12,7 +12,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $users = User::all();
+
+        return response()->json($users, 200);
     }
 
     /**
@@ -28,7 +30,18 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+
+            return response()->json($user, 200);
+        } catch (\Exception $th) {
+            return response()->json([
+                'message' => 'Falha ao buscar usuário!'
+            ], 404);
+
+        }
+
+
     }
 
     /**
